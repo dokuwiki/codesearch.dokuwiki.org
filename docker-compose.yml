@@ -1,0 +1,20 @@
+services:
+  extensionmirror:
+    build: .
+    container_name: extensionmirror
+    restart: unless-stopped
+    environment:
+      SYNC_PERIOD_MINUTES: 10
+      NOMIRROR: 1
+      CHECK_INDEX: 1
+    volumes:
+      - ./volumes/data:/data
+      - ./volumes/data/src:/opengrok/src
+      - ./volumes/index:/opengrok/data
+      - ./volumes/config:/opengrok/etc
+    ports:
+      - 8080:8080
+    labels:
+      chadburn.enabled: "true"
+      chadburn.job-exec.meh-splitbrain.schedule: "@daily"
+      chadburn.job-exec.meh-splitbrain.command: "/app/extensionmirror.php -d /data -w -g"
