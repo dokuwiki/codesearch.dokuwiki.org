@@ -1,0 +1,32 @@
+name: deployment
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t ghcr.io/${{ github.repository }}:latest .
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/${{ github.repository }}:latest
+
+# not yet
+#      - name: Trigger Watchtower Refresh
+#        run: |
+#          curl --fail -X POST https://watchtower.splitbrain.net/v1/update \
+#          -H "Authorization: Bearer ${{ secrets.WATCHTOWER_HTTP_API_TOKEN }}"
