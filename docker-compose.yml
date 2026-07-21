@@ -1,7 +1,7 @@
 services:
-  extensionmirror:
+  codesearch:
     build: .
-    container_name: extensionmirror
+    container_name: codesearch
     restart: unless-stopped
     # Run as a non-root user. The UID must own the ./volumes/* bind mounts on
     # the host; the group must stay 0 so the Tomcat directories baked into the
@@ -17,4 +17,4 @@ services:
       - ./volumes/index:/opengrok/data
       - ./volumes/config:/opengrok/etc
     ports:
-      - 8080:8080
+      - 2015:8080
