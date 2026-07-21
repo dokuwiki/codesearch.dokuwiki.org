@@ -34,3 +34,22 @@ You can also download the current `master` of DokuWiki itself (in addition to al
 
     ./extensionmirror.php -w
 
+## Deployment
+
+The whole service (OpenGrok together with the mirror script) runs as a single Docker container managed through `docker compose`. All persistent data is kept in bind-mounted directories below `./volumes`:
+
+- `./volumes/data` is mounted as `/data` and holds the downloaded extensions and the mirror's metadata. Its `src` subdirectory is additionally mounted as OpenGrok's source root.
+- `./volumes/index` is mounted as `/opengrok/data` and holds the OpenGrok search index.
+- `./volumes/config` is mounted as `/opengrok/etc` and holds the OpenGrok configuration.
+
+The container runs as a non-root user (`user: "1000:0"` in `docker-compose.yml`). Docker creates missing bind-mount directories as `root`, which that user could not write to, so the directories have to be created and owned by the container's UID before the first start:
+
+    mkdir -p volumes/data/src volumes/index volumes/config
+    chown -R 1000:0 volumes
+
+The UID must match the one configured in `docker-compose.yml` and exist on the host; the group has to stay `0`. Afterwards build and start the service:
+
+    docker compose up -d --build
+
+The web interface is then available at http://localhost:2015/.
+
