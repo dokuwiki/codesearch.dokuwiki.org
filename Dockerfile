@@ -11,5 +11,5 @@ RUN apt-get update && \
 COPY ./ /app/
 RUN cd /app && composer install --no-dev --optimize-autoloader
 
-ENTRYPOINT ["/bin/sh", "-c", "wget https://raw.githubusercontent.com/dokuwiki/globalheader/refs/heads/main/globalheader.html -O /opengrok/data/footer_include && exec \"$@\"", "--"]
+ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["/scripts/start.py"]
