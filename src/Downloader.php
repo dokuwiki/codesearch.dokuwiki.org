@@ -1,6 +1,6 @@
 <?php
 
-namespace splitbrain\DokuWikiExtensionMirror;
+namespace dokuwiki\codesearch;
 
 use GuzzleHttp\Client;
 use splitbrain\PHPArchive\Tar;

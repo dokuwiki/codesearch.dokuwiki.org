@@ -3,5 +3,5 @@
 
 require 'vendor/autoload.php';
 
-$cli = new \splitbrain\DokuWikiExtensionMirror\Downloader();
+$cli = new \dokuwiki\codesearch\Downloader();
 $cli->run();

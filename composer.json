@@ -1,5 +1,5 @@
 {
-    "name": "splitbrain/dokuwiki-extensionmirror",
+    "name": "dokuwiki/codesearch",
     "description": "download all dokuwiki plugins",
     "type": "project",
     "license": "MIT",
@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "splitbrain\\DokuWikiExtensionMirror\\": "src"
+            "dokuwiki\\codesearch\\": "src"
         }
     }
 }
