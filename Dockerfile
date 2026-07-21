@@ -19,7 +19,7 @@ RUN rm -f /etc/apt/sources.list.d/perforce.list && \
     && rm -rf /var/lib/apt/lists/*
 
 COPY ./ /app/
-RUN cd /app && composer install --no-dev --optimize-autoloader
+RUN cd /app && composer update --no-dev --optimize-autoloader --no-interaction
 
 # Allow running as an arbitrary non-root UID (configured via `user:` in
 # docker-compose.yml). Such a UID always joins group 0, and OpenGrok's
