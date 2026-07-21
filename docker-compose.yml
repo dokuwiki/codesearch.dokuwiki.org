@@ -3,6 +3,10 @@ services:
     build: .
     container_name: extensionmirror
     restart: unless-stopped
+    # Run as a non-root user. The UID must own the ./volumes/* bind mounts on
+    # the host; the group must stay 0 so the Tomcat directories baked into the
+    # image remain writable.
+    user: "1000:0"
     environment:
       SYNC_PERIOD_MINUTES: 10
       NOMIRROR: 1
