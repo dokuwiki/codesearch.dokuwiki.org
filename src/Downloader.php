@@ -55,12 +55,12 @@ class Downloader extends CLI
 
         $dls = $this->getDownloads();
         if ($options->getOpt('dokuwiki')) {
-            $dls[] = [
+            array_unshift($dls, [
                 'name' => 'dokuwiki',
                 'url' => 'https://github.com/dokuwiki/dokuwiki/archive/master.zip',
                 'date' => 'master',
                 'repo' => 'https://github.com/dokuwiki/dokuwiki.git',
-            ];
+            ]);
         }
 
         foreach ($dls as $dl) {
