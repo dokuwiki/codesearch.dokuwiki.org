@@ -3,6 +3,7 @@
 namespace dokuwiki\codesearch;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
 use splitbrain\PHPArchive\Tar;
 use splitbrain\PHPArchive\Zip;
 use splitbrain\phpcli\CLI;
@@ -133,7 +134,7 @@ class Downloader extends CLI
         $archive = $this->datadir . '/meta/' . $name . '.archive';
 
         $this->info('Downloading {url}', ['url' => $url]);
-        $client = new Client();
+        $client = $this->httpClient();
         $response = $client->get($url, ['allow_redirects' => true]);
         $body = (string)$response->getBody();
         if ($response->getStatusCode() >= 400) {
@@ -224,13 +225,28 @@ class Downloader extends CLI
 
 
     /**
+     * Create a preconfigured HTTP client
+     *
+     * The client carries a botcheck=1 cookie scoped to dokuwiki.org, which the
+     * wiki requires to pass its bot protection. The cookie is not sent to any
+     * other host.
+     *
+     * @return Client
+     */
+    protected function httpClient()
+    {
+        $cookies = CookieJar::fromArray(['botcheck' => '1'], 'dokuwiki.org');
+        return new Client(['cookies' => $cookies]);
+    }
+
+    /**
      * Get all releases that have not been downloaded, yet
      *
      * @return array
      */
     protected function getDownloads()
     {
-        $client = new Client();
+        $client = $this->httpClient();
         $response = $client->get(self::API);
         $results = unserialize($response->getBody());
 
