@@ -1,4 +1,4 @@
-FROM opengrok/docker:1.14.15
+FROM opengrok/docker:1.14.20
 
 # The base image ships Perforce (p4) plus its apt repository. The repository's
 # signing key is missing, which breaks apt-get update, and OpenGrok probes
